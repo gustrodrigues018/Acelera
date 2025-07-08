@@ -8,7 +8,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database-compat.js"></script>
 
-  <!-- ESTILIZAÇÃO -->
+  <!-- CSS -->
   <style>
     * {
       box-sizing: border-box;
@@ -31,6 +31,7 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
       width: 100%;
       max-width: 450px;
+      position: relative;
     }
 
     h1 {
@@ -82,6 +83,28 @@
       margin-top: 1rem;
       font-weight: bold;
     }
+
+    /* Loader */
+    #loader {
+      display: none;
+      margin: 10px auto;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .confete {
+      font-size: 2rem;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -119,26 +142,32 @@
       </select>
     </label>
 
-    <button type="submit">Enviar</button>
+    <div id="loader"></div>
     <p id="mensagem"></p>
+    <div id="confete" class="confete"></div>
+
+    <button type="submit">Enviar</button>
   </form>
 
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDMtFPFciCB1I34flqCxK9ILTjvHY93kU0",
-      authDomain: "acelera-caf43.firebaseapp.com",
-      databaseURL: "https://acelera-caf43-default-rtdb.firebaseio.com",
-      projectId: "acelera-caf43",
-      storageBucket: "acelera-caf43.appspot.com",
-      messagingSenderId: "910743847872",
-      appId: "1:910743847872:web:dc9ae46d54f0e54e8cbe25"
-    };
+    // Firebase config corrigido (com databaseURL)
+  const firebaseConfig = {
+  apiKey: "AIzaSyDMtFPFciCB1I34flqCxK9ILTjvHY93kU0",
+  authDomain: "acelera-caf43.firebaseapp.com",
+  databaseURL: "https://acelera-caf43-default-rtdb.firebaseio.com",
+  projectId: "acelera-caf43",
+  storageBucket: "acelera-caf43.appspot.com",
+  messagingSenderId: "910743847872",
+  appId: "1:910743847872:web:dc9ae46d54f0e54e8cbe25"
+};
 
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
     const form = document.getElementById('formInscricao');
     const mensagem = document.getElementById('mensagem');
+    const loader = document.getElementById('loader');
+    const confete = document.getElementById('confete');
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -146,7 +175,12 @@
       const nome = document.getElementById('nome').value.trim();
       const setor = document.getElementById('setor').value;
 
+      mensagem.textContent = "";
+      confete.textContent = "";
+      loader.style.display = "block";
+
       if (!nome || !setor) {
+        loader.style.display = "none";
         mensagem.textContent = "Preencha todos os campos!";
         mensagem.style.color = "red";
         return;
@@ -156,6 +190,7 @@
 
       setorRef.get().then((snapshot) => {
         if (snapshot.exists()) {
+          loader.style.display = "none";
           mensagem.textContent = "Esse setor já possui um inscrito!";
           mensagem.style.color = "red";
         } else {
@@ -164,15 +199,19 @@
             setor: setor,
             data: new Date().toISOString()
           }).then(() => {
+            loader.style.display = "none";
             mensagem.textContent = "Inscrição realizada com sucesso!";
             mensagem.style.color = "green";
+            confete.textContent = "🎉🎊";
             form.reset();
           }).catch((error) => {
+            loader.style.display = "none";
             mensagem.textContent = "Erro ao salvar: " + error;
             mensagem.style.color = "red";
           });
         }
       }).catch((error) => {
+        loader.style.display = "none";
         mensagem.textContent = "Erro ao verificar: " + error;
         mensagem.style.color = "red";
       });
