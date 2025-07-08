@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscrição - Acelera Dom Pedro</title>
+
+  <!-- Firebase SDK compat -->
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <h1>Inscrição - Acelera Dom Pedro</h1>
+
+  <form id="formInscricao">
+    <label>Nome:
+      <input type="text" id="nome" required>
+    </label><br><br>
+
+    <label>Setor:
+      <select id="setor" required>
+        <option value="">Selecione...</option>
+        <option value="1 MATERIAIS">1 MATERIAIS</option>
+        <option value="2 MADEIRAS">2 MADEIRAS</option>
+        <option value="3 ELETRICA">3 ELETRICA</option>
+        <option value="4 FERRAMENTAS">4 FERRAMENTAS</option>
+        <option value="5 PISOS QUENTES">5 PISOS QUENTES</option>
+        <option value="6 CERÂMICA">6 CERÂMICA</option>
+        <option value="7 SANITÁRIOS">7 SANITÁRIOS</option>
+        <option value="8 ENCANAMENTOS">8 ENCANAMENTOS</option>
+        <option value="9 JARDIM">9 JARDIM</option>
+        <option value="10 FERRAGENS">10 FERRAGENS</option>
+        <option value="11 PINTURA">11 PINTURA</option>
+        <option value="12 DECORAÇÃO">12 DECORAÇÃO</option>
+        <option value="13 ILUMINAÇÃO">13 ILUMINAÇÃO</option>
+        <option value="14 ORGANIZAÇÃO">14 ORGANIZAÇÃO</option>
+        <option value="15 COZINHAS">15 COZINHAS</option>
+        <option value="ATENDIMENTO">ATENDIMENTO</option>
+        <option value="SI">SI</option>
+        <option value="EXPEDIÇÃO">EXPEDIÇÃO</option>
+        <option value="INSTALA E PJ">INSTALA E PJ</option>
+        <option value="SERVIÇOS . GESTÃO">SERVIÇOS . GESTÃO</option>
+        <option value="COMITE">COMITE</option>
+      </select>
+    </label><br><br>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p id="mensagem" style="color: red;"></p>
+
+  <script>
+    // Configuração do Firebase (substitua com os dados do seu projeto)
+    const firebaseConfig = {
+    apiKey: "AIzaSyDMtFPFciCB1I34flqCxK9ILTjvHY93kU0",
+    authDomain: "acelera-caf43.firebaseapp.com",
+    projectId: "acelera-caf43",
+    storageBucket: "acelera-caf43.firebasestorage.app",
+    messagingSenderId: "910743847872",
+    appId: "1:910743847872:web:dc9ae46d54f0e54e8cbe25"
+  };
+
+    // Inicializa Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    const form = document.getElementById('formInscricao');
+    const mensagem = document.getElementById('mensagem');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const setor = document.getElementById('setor').value;
+
+      if (!nome || !setor) {
+        mensagem.textContent = "Preencha todos os campos!";
+        mensagem.style.color = "red";
+        return;
+      }
+
+      const setorRef = database.ref('inscricoes/' + setor);
+
+      setorRef.get().then((snapshot) => {
+        if (snapshot.exists()) {
+          mensagem.textContent = "Esse setor já possui um inscrito!";
+          mensagem.style.color = "red";
+        } else {
+          setorRef.set({
+            nome: nome,
+            setor: setor,
+            data: new Date().toISOString()
+          }).then(() => {
+            mensagem.textContent = "Inscrição realizada com sucesso!";
+            mensagem.style.color = "green";
+            form.reset();
+          }).catch((error) => {
+            mensagem.textContent = "Erro ao salvar: " + error;
+            mensagem.style.color = "red";
+          });
+        }
+      }).catch((error) => {
+        mensagem.textContent = "Erro ao verificar: " + error;
+        mensagem.style.color = "red";
+      });
+    });
+  </script>
+</body>
+</html>
