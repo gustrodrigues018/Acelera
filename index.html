@@ -143,69 +143,64 @@
     <button type="submit">Enviar</button>
   </form>
   
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database-compat.js"></script>
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDz5KVv9brf48P2UZA-Sv9-gHUao5NVnws",
-    authDomain: "acelera-478b7.firebaseapp.com",
-    databaseURL: "https://acelera-478b7-default-rtdb.firebaseio.com",
-    projectId: "acelera-478b7",
-    storageBucket: "acelera-478b7.firebasestorage.app",
-    messagingSenderId: "857971216006",
-    appId: "1:857971216006:web:434944b1134a64b9658b07"
-  };
+<script>
+  window.onload = function() {
+    // Agora sim o firebase estará definido porque a página e os scripts já carregaram
+    const firebaseConfig = {
+      apiKey: "AIzaSyDz5KVv9brf48P2UZA-Sv9-gHUao5NVnws",
+      authDomain: "acelera-478b7.firebaseapp.com",
+      databaseURL: "https://acelera-478b7-default-rtdb.firebaseio.com",
+      projectId: "acelera-478b7",
+      storageBucket: "acelera-478b7.appspot.com",
+      messagingSenderId: "857971216006",
+      appId: "1:857971216006:web:434944b1134a64b9658b07"
+    };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  // Inicializa o Firebase (modo compat)
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
-  // Formulário
-  const form = document.getElementById('formInscricao');
-  const mensagem = document.getElementById('mensagem');
-  const loader = document.getElementById('loader');
-  const confete = document.getElementById('confete');
+    const form = document.getElementById('formInscricao');
+    const mensagem = document.getElementById('mensagem');
+    const loader = document.getElementById('loader');
+    const confete = document.getElementById('confete');
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-    const nome = document.getElementById('nome').value.trim();
-    const setor = document.getElementById('setor').value;
+      const nome = document.getElementById('nome').value.trim();
+      const setor = document.getElementById('setor').value;
 
-    mensagem.textContent = "";
-    confete.textContent = "";
-    loader.style.display = "block";
+      mensagem.textContent = "";
+      confete.textContent = "";
+      loader.style.display = "block";
 
-    if (!nome || !setor) {
-      loader.style.display = "none";
-      mensagem.textContent = "Preencha todos os campos!";
-      mensagem.style.color = "red";
-      return;
-    }
+      if (!nome || !setor) {
+        loader.style.display = "none";
+        mensagem.textContent = "Preencha todos os campos!";
+        mensagem.style.color = "red";
+        return;
+      }
 
-    database.ref('inscricao').push({
-      nome: nome,
-      setor: setor,
-      data: new Date().toISOString()
-    }).then(() => {
-      loader.style.display = "none";
-      mensagem.textContent = "Inscrição realizada com sucesso!";
-      mensagem.style.color = "green";
-      confete.textContent = "🎉🎊";
-      form.reset();
-    }).catch((error) => {
-      loader.style.display = "none";
-      mensagem.textContent = "Erro ao salvar: " + error;
-      mensagem.style.color = "red";
+      database.ref('inscricao').push({
+        nome: nome,
+        setor: setor,
+        data: new Date().toISOString()
+      }).then(() => {
+        loader.style.display = "none";
+        mensagem.textContent = "Inscrição realizada com sucesso!";
+        mensagem.style.color = "green";
+        confete.textContent = "🎉🎊";
+        form.reset();
+      }).catch((error) => {
+        loader.style.display = "none";
+        mensagem.textContent = "Erro ao salvar: " + error;
+        mensagem.style.color = "red";
+      });
     });
-  });
+  };
 </script>
-
 </body>
 </html>
