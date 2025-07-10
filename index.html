@@ -145,6 +145,7 @@
 
   <!-- Firebase SDKs compatíveis -->
 <!-- Firebase SDK compatível -->
+<!-- Firebase SDK compatível -->
 <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database-compat.js"></script>
 
@@ -160,17 +161,16 @@
     appId: "1:857971216006:web:434944b1134a64b9658b07"
   };
 
-  // Inicializa o Firebase
+  // Inicializa o Firebase (modo compat)
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  // Elementos do DOM
+  // Formulário
   const form = document.getElementById('formInscricao');
   const mensagem = document.getElementById('mensagem');
   const loader = document.getElementById('loader');
   const confete = document.getElementById('confete');
 
-  // Evento de envio do formulário
   form.addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -188,7 +188,6 @@
       return;
     }
 
-    // Salva com push para não sobrescrever
     database.ref('inscricao').push({
       nome: nome,
       setor: setor,
