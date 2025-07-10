@@ -6,125 +6,144 @@
   <title>Inscrição - Acelera Dom Pedro</title>
   <style>
     /* ...seu CSS aqui, mantive igual... */
- * {
+* {
   box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Segoe UI", "Poppins", sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg, #1abc9c, #16a085);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #1f1c2c, #928dab, #2b5876, #4e4376);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  margin: 0;
   padding: 1rem;
 }
 
-form {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 450px;
-  transition: all 0.3s ease-in-out;
-  animation: fadeIn 0.8s ease;
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
 }
 
-@keyframes fadeIn {
+form {
+  backdrop-filter: blur(15px);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
 
 h1 {
   text-align: center;
-  color: #2c3e50;
-  margin-bottom: 25px;
+  color: #fff;
   font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
 label {
   display: block;
-  margin-bottom: 1.2rem;
-  color: #2c3e50;
+  color: #f1f1f1;
   font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 input, select {
   width: 100%;
-  padding: 0.8rem;
+  padding: 0.75rem;
   margin-top: 0.4rem;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  transition: 0.3s;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
   font-size: 1rem;
+  transition: 0.3s;
+  backdrop-filter: blur(5px);
+}
+
+input::placeholder {
+  color: #ccc;
 }
 
 input:focus, select:focus {
   outline: none;
-  border-color: #1abc9c;
-  box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
+  border: 2px solid #00e6e6;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 button {
   width: 100%;
   padding: 0.9rem;
-  background: linear-gradient(90deg, #27ae60, #2ecc71);
-  border: none;
-  color: white;
+  margin-top: 1rem;
+  background: linear-gradient(90deg, #00f0ff, #00ffc6);
+  color: #000;
   font-weight: bold;
-  font-size: 1.1rem;
-  border-radius: 50px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 10px #00ffe0, 0 0 40px #00ffe0;
 }
 
 button:hover {
-  background: linear-gradient(90deg, #2ecc71, #27ae60);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffe0, 0 0 60px #00ffe0;
 }
 
 #mensagem {
   text-align: center;
   margin-top: 1rem;
   font-weight: bold;
-  color: #2c3e50;
+  color: #fff;
+  text-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 #loader {
   display: none;
   margin: 10px auto;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #1abc9c;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top: 4px solid #00ffc3;
   border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
 }
 
 .confete {
   font-size: 2.5rem;
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 500px) {
   form {
     padding: 1.5rem;
-    border-radius: 15px;
   }
 
   h1 {
@@ -133,9 +152,9 @@ button:hover {
 
   input, select, button {
     font-size: 1rem;
-    padding: 0.7rem;
   }
 }
+
   </style>
 </head>
 <body>
