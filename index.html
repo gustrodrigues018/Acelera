@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inscrição - Acelera Dom Pedro</title>
   <style>
     /* ...seu CSS aqui, mantive igual... */
@@ -100,37 +101,19 @@
       text-align: center;
     }
 
-    @media (max-width: 480px) {
+ @media (max-width: 500px) {
   form {
     padding: 1rem;
-    max-width: 90%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 6px;
+  }
+
+  input, select, button {
+    font-size: 1rem;
+    padding: 0.6rem;
   }
 
   h1 {
     font-size: 1.5rem;
-  }
-
-  label {
-    font-size: 0.9rem;
-  }
-
-  input, select {
-    padding: 0.5rem;
-    font-size: 1rem;
-  }
-
-  button {
-    padding: 1rem;
-    font-size: 1.1rem;
-  }
-
-  #mensagem {
-    font-size: 1rem;
-  }
-
-  .confete {
-    font-size: 1.8rem;
   }
 }
   </style>
