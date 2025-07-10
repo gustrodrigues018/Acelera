@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Inscritos - Acelera Dom Pedro</title>
+  <title>Lista de Inscritos - Turbo</title>
   <style>
     * {
       box-sizing: border-box;
@@ -33,12 +33,13 @@
       background-color: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
       padding: 2rem;
-      max-width: 700px;
+      max-width: 800px;
       width: 100%;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.18);
       animation: fadeInUp 1s ease;
       margin-top: 2rem;
+      color: white;
     }
 
     @keyframes fadeInUp {
@@ -60,14 +61,47 @@
       text-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
 
+    .filtros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .filtros input, .filtros select, .filtros button {
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+
+    .filtros input::placeholder {
+      color: #ccc;
+    }
+
+    .filtros button {
+      cursor: pointer;
+      background: linear-gradient(90deg, #00f0ff, #00ffc6);
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 0 10px #00ffe0, 0 0 40px #00ffe0;
+      transition: 0.3s ease-in-out;
+    }
+
+    .filtros button:hover {
+      transform: scale(1.05);
+    }
+
     .inscrito {
       background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 12px;
       padding: 1rem;
       margin-bottom: 1rem;
       box-shadow: 0 0 10px rgba(0,255,195,0.2);
-      color: #fff;
     }
 
     .inscrito p {
@@ -85,13 +119,10 @@
       margin-top: 1rem;
     }
 
-    @media (max-width: 500px) {
-      .container {
-        padding: 1.5rem;
-      }
-
-      h1 {
-        font-size: 1.5rem;
+    @media (max-width: 600px) {
+      .filtros {
+        flex-direction: column;
+        align-items: stretch;
       }
     }
   </style>
@@ -100,6 +131,36 @@
 
   <div class="container">
     <h1>Lista de Inscritos</h1>
+
+    <div class="filtros">
+      <input type="text" id="buscaNome" placeholder="Buscar por nome..." />
+      <select id="filtroSetor">
+        <option value="">Todos os setores</option>
+        <option value="1 MATERIAIS">1 MATERIAIS</option>
+        <option value="2 MADEIRAS">2 MADEIRAS</option>
+        <option value="3 ELETRICA">3 ELETRICA</option>
+        <option value="4 FERRAMENTAS">4 FERRAMENTAS</option>
+        <option value="5 PISOS QUENTES">5 PISOS QUENTES</option>
+        <option value="6 CERÂMICA">6 CERÂMICA</option>
+        <option value="7 SANITÁRIOS">7 SANITÁRIOS</option>
+        <option value="8 ENCANAMENTOS">8 ENCANAMENTOS</option>
+        <option value="9 JARDIM">9 JARDIM</option>
+        <option value="10 FERRAGENS">10 FERRAGENS</option>
+        <option value="11 PINTURA">11 PINTURA</option>
+        <option value="12 DECORAÇÃO">12 DECORAÇÃO</option>
+        <option value="13 ILUMINAÇÃO">13 ILUMINAÇÃO</option>
+        <option value="14 ORGANIZAÇÃO">14 ORGANIZAÇÃO</option>
+        <option value="15 COZINHAS">15 COZINHAS</option>
+        <option value="ATENDIMENTO">ATENDIMENTO</option>
+        <option value="SI">SI</option>
+        <option value="EXPEDIÇÃO">EXPEDIÇÃO</option>
+        <option value="INSTALA E PJ">INSTALA E PJ</option>
+        <option value="SERVIÇOS . GESTÃO">SERVIÇOS . GESTÃO</option>
+        <option value="COMITE">COMITE</option>
+      </select>
+      <button id="exportarCsv">Exportar CSV</button>
+    </div>
+
     <div id="listaInscritos">
       <p class="mensagem">Carregando inscrições...</p>
     </div>
@@ -120,33 +181,77 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-
+    const db = getDatabase(app);
     const lista = document.getElementById("listaInscritos");
-    const inscritosRef = ref(database, "inscricao");
+    const buscaNome = document.getElementById("buscaNome");
+    const filtroSetor = document.getElementById("filtroSetor");
+    const btnExportar = document.getElementById("exportarCsv");
+
+    let inscritos = [];
+
+    const renderizar = () => {
+      const nomeFiltro = buscaNome.value.toLowerCase();
+      const setorFiltro = filtroSetor.value;
+
+      const filtrados = inscritos.filter((inscrito) => {
+        const nomeMatch = inscrito.nome.toLowerCase().includes(nomeFiltro);
+        const setorMatch = setorFiltro === "" || inscrito.setor === setorFiltro;
+        return nomeMatch && setorMatch;
+      });
+
+      lista.innerHTML = "";
+
+      if (filtrados.length === 0) {
+        lista.innerHTML = "<p class='mensagem'>Nenhum inscrito encontrado.</p>";
+        return;
+      }
+
+      filtrados.forEach((i) => {
+        const item = document.createElement("div");
+        item.className = "inscrito";
+        item.innerHTML = `
+          <p><strong>Nome:</strong> ${i.nome}</p>
+          <p><strong>Matrícula:</strong> ${i.matricula || '---'}</p>
+          <p><strong>Setor:</strong> ${i.setor}</p>
+          <p><strong>Data:</strong> ${new Date(i.data).toLocaleString("pt-BR")}</p>
+        `;
+        lista.appendChild(item);
+      });
+    };
+
+    const exportarCSV = () => {
+      const headers = ["Nome", "Matrícula", "Setor", "Data"];
+      const linhas = inscritos.map(i => [
+        `"${i.nome}"`,
+        `"${i.matricula || ''}"`,
+        `"${i.setor}"`,
+        `"${new Date(i.data).toLocaleString("pt-BR")}"`
+      ]);
+      const csvContent = [headers, ...linhas].map(e => e.join(",")).join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "inscritos.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    buscaNome.addEventListener("input", renderizar);
+    filtroSetor.addEventListener("change", renderizar);
+    btnExportar.addEventListener("click", exportarCSV);
+
+    const inscritosRef = ref(db, "inscricao");
 
     onValue(inscritosRef, (snapshot) => {
-      lista.innerHTML = ""; // limpa antes
-
       if (!snapshot.exists()) {
         lista.innerHTML = "<p class='mensagem'>Nenhum inscrito encontrado.</p>";
         return;
       }
 
       const dados = snapshot.val();
-      const inscritos = Object.values(dados);
-
-      inscritos.forEach((inscrito) => {
-        const item = document.createElement("div");
-        item.className = "inscrito";
-        item.innerHTML = `
-          <p><strong>Nome:</strong> ${inscrito.nome}</p>
-          <p><strong>Matrícula:</strong> ${inscrito.matricula}</p>
-          <p><strong>Setor:</strong> ${inscrito.setor}</p>
-          <p><strong>Data:</strong> ${new Date(inscrito.data).toLocaleString("pt-BR")}</p>
-        `;
-        lista.appendChild(item);
-      });
+      inscritos = Object.values(dados);
+      renderizar();
     });
   </script>
 
