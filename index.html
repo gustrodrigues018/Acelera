@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Inscrição - Acelera Dom Pedro</title>
-
   <style>
     * {
       box-sizing: border-box;
@@ -144,85 +143,69 @@
     <button type="submit">Enviar</button>
   </form>
 
-  <!-- Firebase SDKs (deixa no fim!) -->
-  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database-compat.js"></script>
+  <!-- Firebase SDKs compatíveis -->
+<!-- Firebase SDK compatível -->
+<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-database-compat.js"></script>
 
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+<script>
+  // Configuração do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDz5KVv9brf48P2UZA-Sv9-gHUao5NVnws",
+    authDomain: "acelera-478b7.firebaseapp.com",
+    databaseURL: "https://acelera-478b7-default-rtdb.firebaseio.com",
+    projectId: "acelera-478b7",
+    storageBucket: "acelera-478b7.appspot.com",
+    messagingSenderId: "857971216006",
+    appId: "1:857971216006:web:434944b1134a64b9658b07"
+  };
 
-  // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDMtFPFciCB1I34flqCxK9ILTjvHY93kU0",
-  authDomain: "acelera-caf43.firebaseapp.com",
-  databaseURL: "https://acelera-caf43-default-rtdb.firebaseio.com",
-  projectId: "acelera-caf43",
-  storageBucket: "acelera-caf43.appspot.com",
-  messagingSenderId: "910743847872",
-  appId: "1:910743847872:web:dc9ae46d54f0e54e8cbe25"
-};
+  // Inicializa o Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+  // Elementos do DOM
+  const form = document.getElementById('formInscricao');
+  const mensagem = document.getElementById('mensagem');
+  const loader = document.getElementById('loader');
+  const confete = document.getElementById('confete');
 
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+  // Evento de envio do formulário
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    const form = document.getElementById('formInscricao');
-    const mensagem = document.getElementById('mensagem');
-    const loader = document.getElementById('loader');
-    const confete = document.getElementById('confete');
+    const nome = document.getElementById('nome').value.trim();
+    const setor = document.getElementById('setor').value;
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
+    mensagem.textContent = "";
+    confete.textContent = "";
+    loader.style.display = "block";
 
-      const nome = document.getElementById('nome').value.trim();
-      const setor = document.getElementById('setor').value;
+    if (!nome || !setor) {
+      loader.style.display = "none";
+      mensagem.textContent = "Preencha todos os campos!";
+      mensagem.style.color = "red";
+      return;
+    }
 
-      mensagem.textContent = "";
-      confete.textContent = "";
-      loader.style.display = "block";
-
-      if (!nome || !setor) {
-        loader.style.display = "none";
-        mensagem.textContent = "Preencha todos os campos!";
-        mensagem.style.color = "red";
-        return;
-      }
-
-      const setorRef = database.ref('inscricoes/' + setor);
-
-      setorRef.get().then((snapshot) => {
-        if (snapshot.exists()) {
-          loader.style.display = "none";
-          mensagem.textContent = "Esse setor já possui um inscrito!";
-          mensagem.style.color = "red";
-        } else {
-          setorRef.set({
-            nome: nome,
-            setor: setor,
-            data: new Date().toISOString()
-          }).then(() => {
-            loader.style.display = "none";
-            mensagem.textContent = "Inscrição realizada com sucesso!";
-            mensagem.style.color = "green";
-            confete.textContent = "🎉🎊";
-            form.reset();
-          }).catch((error) => {
-            loader.style.display = "none";
-            mensagem.textContent = "Erro ao salvar: " + error;
-            mensagem.style.color = "red";
-          });
-        }
-      }).catch((error) => {
-        loader.style.display = "none";
-        mensagem.textContent = "Erro ao verificar: " + error;
-        mensagem.style.color = "red";
-      });
+    // Salva com push para não sobrescrever
+    database.ref('inscricao').push({
+      nome: nome,
+      setor: setor,
+      data: new Date().toISOString()
+    }).then(() => {
+      loader.style.display = "none";
+      mensagem.textContent = "Inscrição realizada com sucesso!";
+      mensagem.style.color = "green";
+      confete.textContent = "🎉🎊";
+      form.reset();
+    }).catch((error) => {
+      loader.style.display = "none";
+      mensagem.textContent = "Erro ao salvar: " + error;
+      mensagem.style.color = "red";
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
