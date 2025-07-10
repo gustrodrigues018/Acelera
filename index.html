@@ -5,160 +5,159 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inscrição - Acelera Dom Pedro</title>
   <style>
-    /* ...seu CSS aqui, mantive igual... */
-* {
-  box-sizing: border-box;
-  font-family: "Segoe UI", "Poppins", sans-serif;
-}
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", "Poppins", sans-serif;
+    }
 
-body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  background: linear-gradient(-45deg, #1f1c2c, #928dab, #2b5876, #4e4376);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #1f1c2c, #928dab, #2b5876, #4e4376);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
 
-@keyframes gradientBG {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
-}
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
 
-form {
-  backdrop-filter: blur(15px);
-  background-color: rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  padding: 2rem;
-  max-width: 450px;
-  width: 100%;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  animation: fadeInUp 1s ease;
-}
+    form {
+      backdrop-filter: blur(15px);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      animation: fadeInUp 1s ease;
+    }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-h1 {
-  text-align: center;
-  color: #fff;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
+    h1 {
+      text-align: center;
+      color: #fff;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
 
-label {
-  display: block;
-  color: #f1f1f1;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
+    label {
+      display: block;
+      color: #f1f1f1;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
 
-input, select {
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 0.4rem;
-  border-radius: 10px;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  font-size: 1rem;
-  transition: 0.3s;
-  backdrop-filter: blur(5px);
-}
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.4rem;
+      border-radius: 10px;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 1rem;
+      transition: 0.3s;
+      backdrop-filter: blur(5px);
+    }
 
-input::placeholder {
-  color: #ccc;
-}
+    input::placeholder {
+      color: #ccc;
+    }
 
-input:focus, select:focus {
-  outline: none;
-  border: 2px solid #00e6e6;
-  background-color: rgba(255, 255, 255, 0.3);
-}
+    input:focus, select:focus {
+      outline: none;
+      border: 2px solid #00e6e6;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
 
-button {
-  width: 100%;
-  padding: 0.9rem;
-  margin-top: 1rem;
-  background: linear-gradient(90deg, #00f0ff, #00ffc6);
-  color: #000;
-  font-weight: bold;
-  font-size: 1rem;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: 0.3s ease-in-out;
-  box-shadow: 0 0 10px #00ffe0, 0 0 40px #00ffe0;
-}
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      margin-top: 1rem;
+      background: linear-gradient(90deg, #00f0ff, #00ffc6);
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      box-shadow: 0 0 10px #00ffe0, 0 0 40px #00ffe0;
+    }
 
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #00ffe0, 0 0 60px #00ffe0;
-}
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffe0, 0 0 60px #00ffe0;
+    }
 
-#mensagem {
-  text-align: center;
-  margin-top: 1rem;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
+    #mensagem {
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
 
-#loader {
-  display: none;
-  margin: 10px auto;
-  border: 4px solid rgba(255,255,255,0.2);
-  border-top: 4px solid #00ffc3;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
-}
+    #loader {
+      display: none;
+      margin: 10px auto;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top: 4px solid #00ffc3;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
 
-@keyframes spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
-}
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
 
-.confete {
-  font-size: 2.5rem;
-  text-align: center;
-  margin-top: 0.5rem;
-}
+    .confete {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
 
-@media (max-width: 500px) {
-  form {
-    padding: 1.5rem;
-  }
+    @media (max-width: 500px) {
+      form {
+        padding: 1.5rem;
+      }
 
-  h1 {
-    font-size: 1.5rem;
-  }
+      h1 {
+        font-size: 1.5rem;
+      }
 
-  input, select, button {
-    font-size: 1rem;
-  }
-}
+      input, select, button {
+        font-size: 1rem;
+      }
+    }
+
     select option {
-  background-color: #fff;
-  color: #000;
-}
-
+      background-color: #fff;
+      color: #000;
+    }
   </style>
 </head>
 <body>
@@ -168,6 +167,10 @@ button:hover {
 
     <label for="nome">Nome:
       <input type="text" id="nome" required>
+    </label>
+
+    <label for="matricula">Matrícula:
+      <input type="text" id="matricula" required placeholder="Digite sua matrícula">
     </label>
 
     <label for="setor">Setor:
@@ -197,7 +200,7 @@ button:hover {
       </select>
     </label>
 
-    <div id="loader" style="display:none;"></div>
+    <div id="loader"></div>
     <p id="mensagem"></p>
     <div id="confete" class="confete"></div>
 
@@ -230,13 +233,14 @@ button:hover {
       e.preventDefault();
 
       const nome = form.nome.value.trim();
+      const matricula = form.matricula.value.trim();
       const setor = form.setor.value;
 
       mensagem.textContent = "";
       confete.textContent = "";
       loader.style.display = "block";
 
-      if (!nome || !setor) {
+      if (!nome || !matricula || !setor) {
         loader.style.display = "none";
         mensagem.textContent = "Preencha todos os campos!";
         mensagem.style.color = "red";
@@ -244,7 +248,7 @@ button:hover {
       }
 
       try {
-        // Checa se já existe inscrição nesse setor
+        // Verifica se já existe inscrição para este setor
         const inscricoesRef = ref(database, 'inscricao');
         const q = query(inscricoesRef, orderByChild('setor'), equalTo(setor));
         const snapshot = await get(q);
@@ -259,6 +263,7 @@ button:hover {
         // Se não existe, insere
         await push(inscricoesRef, {
           nome,
+          matricula,
           setor,
           data: new Date().toISOString()
         });
