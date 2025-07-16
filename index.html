@@ -193,7 +193,7 @@
         <option value="15 COZINHAS">15 COZINHAS</option>
         <option value="ATENDIMENTO">ATENDIMENTO</option>
         <option value="EXPEDIÇÃO">Supply</option>
-        <option value="EXPEDIÇÃO">Eficiencia Operacional</option>
+        <option value="EFICIENCIA">Eficiência Operacional</option>
         <option value="SERVIÇOS . GESTÃO">SERVIÇOS . GESTÃO</option>
       </select>
     </label>
@@ -207,7 +207,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, push, query, orderByChild, equalTo, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDz5KVv9brf48P2UZA-Sv9-gHUao5NVnws",
@@ -246,19 +246,8 @@
       }
 
       try {
-        // Verifica se já existe inscrição para este setor
         const inscricoesRef = ref(database, 'inscricao');
-        const q = query(inscricoesRef, orderByChild('setor'), equalTo(setor));
-        const snapshot = await get(q);
 
-        if (snapshot.exists()) {
-          loader.style.display = "none";
-          mensagem.textContent = `Já existe uma inscrição para o setor "${setor}".`;
-          mensagem.style.color = "red";
-          return;
-        }
-
-        // Se não existe, insere
         await push(inscricoesRef, {
           nome,
           matricula,
